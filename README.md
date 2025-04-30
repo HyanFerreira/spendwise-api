@@ -34,9 +34,7 @@
 
 --- -->
 
-## 👥 Autores
-
-Este projeto têm os seguintes colaboradores:
+## 👥 Colaboradores
 
 - **Hyan Ferreira**  
 - **Emerson Soares**  
