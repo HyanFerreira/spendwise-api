@@ -5,7 +5,7 @@
 ## 📚 Índice
 
 - [🔧 Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [🔗 Endpoints da API](#-endpoints-da-api)
+<!-- - [🔗 Endpoints da API](#-endpoints-da-api) -->
 - [👥 Autores](#-autores)
 
 ---
@@ -19,7 +19,7 @@
 - [Zod (validação de dados)](https://zod.dev/)
 - [MySQL](https://www.mysql.com/)
 
----
+<!-- ---
 
 ## 🔗 Endpoints da API
 
@@ -32,7 +32,7 @@
 | PUT    | /transactions/:id | Atualiza uma transação existente |
 | DELETE | /transactions/:id | Remove uma transação             |
 
----
+--- -->
 
 ## 👥 Autores
 
