@@ -2,11 +2,11 @@
 
 **SpendWise** é uma API RESTful para gerenciamento de finanças pessoais, desenvolvida como projeto acadêmico na disciplina de **CARWEB2**, do **Instituto Federal de Educação, Ciência e Tecnologia de São Paulo (IFSP)**.
 
-## 📚 Índice
+<!-- ## 📚 Índice
 
 - [🔧 Tecnologias Utilizadas](#-tecnologias-utilizadas)
-<!-- - [🔗 Endpoints da API](#-endpoints-da-api) -->
-- [👥 Autores](#-autores)
+- [🔗 Endpoints da API](#-endpoints-da-api)
+- [👥 Autores](#-autores) -->
 
 ---
 
