@@ -1,13 +1,10 @@
 # 💸 SpendWise - API de Gerenciamento Financeiro
 
-**SpendWise** é uma API RESTful desenvolvida para gerenciar finanças pessoais de forma prática, segura e eficiente. Este projeto foi desenvolvido como parte da disciplina de **CARWEB2**.
+**SpendWise** é uma API RESTful para gerenciamento de finanças pessoais, desenvolvida como projeto acadêmico na disciplina de **CARWEB2**, do **Instituto Federal de Educação, Ciência e Tecnologia de São Paulo (IFSP)**. A aplicação tem como objetivo oferecer funcionalidades para controle de transações financeiras, integrando tecnologias modernas do ecossistema JavaScript e banco de dados relacional.
 
 ## 📚 Índice
 
 - [🔧 Tecnologias Utilizadas](#-tecnologias-utilizadas)
-- [🚀 Como Executar o Projeto](#-como-executar-o-projeto)
-- [🛠 Estrutura do Projeto](#-estrutura-do-projeto)
-- [✅ Validações com Zod](#-validações-com-zod)
 - [🔗 Endpoints da API](#-endpoints-da-api)
 - [👥 Autores](#-autores)
 
@@ -24,19 +21,25 @@
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🔗 Endpoints da API
 
-### Pré-requisitos
+> Exemplos de endpoints (pode ser expandido conforme a API for crescendo):
 
-- Node.js instalado
-- MySQL rodando e configurado
-- Um gerenciador de pacotes como `npm` ou `yarn`
+| Método | Rota              | Descrição                        |
+|--------|-------------------|----------------------------------|
+| GET    | /transactions     | Lista todas as transações        |
+| POST   | /transactions     | Cria uma nova transação          |
+| PUT    | /transactions/:id | Atualiza uma transação existente |
+| DELETE | /transactions/:id | Remove uma transação             |
 
-### Passo a passo
+---
 
-1. Clone o repositório:
+## 👥 Autores
 
-```bash
-git clone https://github.com/seu-usuario/spendwise-api.git
-cd spendwise-api
-```
+Este projeto foi desenvolvido por:
+
+- **Hyan Ferreira**  
+- **Emerson Soares**  
+- **Robert Rudi**
+
+Desenvolvido para a disciplina de **CARWEB2**, no **IFSP**.
