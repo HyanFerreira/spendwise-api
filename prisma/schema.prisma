@@ -15,7 +15,7 @@ model cartao_credito {
   limite_disponivel Float
   limite_usado      Float
   id_user           Int        @db.UnsignedInt
-  users             users      @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "cartao_credito_ibfk_1")
+  users             users      @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "cartao_credito_ibfk_1")
   despesas          despesas[]
   receitas          receitas[]
 
@@ -27,7 +27,7 @@ model categorias {
   nome_categoria  String     @db.VarChar(255)
   icone_categoria Bytes?     @db.Blob
   id_user         Int        @db.UnsignedInt
-  users           users      @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "categorias_ibfk_1")
+  users           users      @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "categorias_ibfk_1")
   despesas        despesas[]
   receitas        receitas[]
 
@@ -39,7 +39,7 @@ model conta {
   nome     String     @db.VarChar(255)
   saldo    Float      @default(0)
   id_user  Int        @unique(map: "id_user") @db.UnsignedInt
-  users    users      @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "conta_ibfk_1")
+  users    users      @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "conta_ibfk_1")
   despesas despesas[]
   receitas receitas[]
 }
@@ -56,10 +56,10 @@ model despesas {
   id_cartao        Int?                      @db.UnsignedInt
   id_categoria     Int?                      @db.UnsignedInt
   id_user          Int                       @db.UnsignedInt
-  users            users                     @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "despesas_ibfk_1")
-  conta            conta?                    @relation(fields: [id_conta], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "despesas_ibfk_2")
-  cartao_credito   cartao_credito?           @relation(fields: [id_cartao], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "despesas_ibfk_3")
-  categorias       categorias?               @relation(fields: [id_categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "despesas_ibfk_4")
+  users            users                     @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "despesas_ibfk_1")
+  conta            conta?                    @relation(fields: [id_conta], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "despesas_ibfk_2")
+  cartao_credito   cartao_credito?           @relation(fields: [id_cartao], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "despesas_ibfk_3")
+  categorias       categorias?               @relation(fields: [id_categoria], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "despesas_ibfk_4")
 
   @@index([id_cartao], map: "id_cartao")
   @@index([id_categoria], map: "id_categoria")
@@ -78,10 +78,10 @@ model receitas {
   id_cartao        Int?                      @db.UnsignedInt
   id_categoria     Int?                      @db.UnsignedInt
   id_user          Int                       @db.UnsignedInt
-  users            users                     @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "receitas_ibfk_1")
-  conta            conta?                    @relation(fields: [id_conta], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "receitas_ibfk_2")
-  cartao_credito   cartao_credito?           @relation(fields: [id_cartao], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "receitas_ibfk_3")
-  categorias       categorias?               @relation(fields: [id_categoria], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "receitas_ibfk_4")
+  users            users                     @relation(fields: [id_user], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "receitas_ibfk_1")
+  conta            conta?                    @relation(fields: [id_conta], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "receitas_ibfk_2")
+  cartao_credito   cartao_credito?           @relation(fields: [id_cartao], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "receitas_ibfk_3")
+  categorias       categorias?               @relation(fields: [id_categoria], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "receitas_ibfk_4")
 
   @@index([id_cartao], map: "id_cartao")
   @@index([id_categoria], map: "id_categoria")
