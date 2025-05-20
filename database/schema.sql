@@ -1,97 +1,78 @@
 CREATE DATABASE IF NOT EXISTS spendwise_db;
-
-
 USE spendwise_db;
 
-
-CREATE TABLE `Users` (
-	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-	`nome` VARCHAR(255),
-	`email` VARCHAR(255) UNIQUE,
-	`senha` VARCHAR(500),
-	`img_perfil` BLOB,
-	PRIMARY KEY(`id`)
+-- Usuários
+CREATE TABLE Users (
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nome VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL UNIQUE,
+	senha VARCHAR(500) NOT NULL,
+	img_perfil BLOB
 );
 
-
-CREATE TABLE `Receitas` (
-	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-	`nome_receita` VARCHAR(255),
-	`desc_receita` TEXT(65535),
-	`valor_receita` DOUBLE,
-	`data_receita` DATE,
-	`metodo_pagamento` ENUM('debito', 'credito'),
-	`id_conta` INTEGER,
-	`id_cartao` INTEGER,
-	`id_categoria` INTEGER,
-	PRIMARY KEY(`id`)
-) COMMENT='Relação com cartão de crédito e conta (saldo)';
-
-
-CREATE TABLE `Categorias` (
-	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-	`nome_cataegoria` VARCHAR(255),
-	`icone_categoria` BLOB,
-	PRIMARY KEY(`id`)
-) COMMENT='Criar relação com users';
-
-
-CREATE TABLE `Despesas` (
-	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-	`nome_despesa` VARCHAR(255),
-	`desc_despesa` TEXT(65535),
-	`valor_despesa` DOUBLE,
-	`data_despesa` DATE,
-	`metodo_pagamento` ENUM('debito', 'credito'),
-	`id_conta` INTEGER,
-	`id_cartao` INTEGER,
-	`id_categoria` INTEGER,
-	PRIMARY KEY(`id`)
-) COMMENT='Relação com cartão de crédito e conta (saldo)';
-
-
-CREATE TABLE `Cartao_credito` (
-	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-	`nome_cartao` VARCHAR(255),
-	`icone_cartao` BLOB,
-	`limite_cartao` DOUBLE,
-	`limite_disponivel` DOUBLE,
-	`limite_usado` DOUBLE,
-	`id_conta` INTEGER,
-	PRIMARY KEY(`id`)
-) COMMENT='Pesquisar como criar atributos derivados';
-
-
-CREATE TABLE `Conta` (
-	`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
-	`nome` VARCHAR(255),
-	`saldo` DOUBLE,
-	`id_user` INTEGER,
-	PRIMARY KEY(`id`)
+-- Conta (uma por usuário)
+CREATE TABLE Conta (
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nome VARCHAR(255) NOT NULL,
+	saldo DOUBLE NOT NULL DEFAULT 0,
+	id_user INT UNSIGNED UNIQUE NOT NULL,
+	FOREIGN KEY (id_user) REFERENCES Users(id)
 );
 
+-- Categorias (cada usuário tem as suas)
+CREATE TABLE Categorias (
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nome_categoria VARCHAR(255) NOT NULL,
+	icone_categoria BLOB,
+	id_user INT UNSIGNED NOT NULL,
+	FOREIGN KEY (id_user) REFERENCES Users(id)
+);
 
-ALTER TABLE `Users`
-ADD FOREIGN KEY(`id`) REFERENCES `Conta`(`id_user`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE `Conta`
-ADD FOREIGN KEY(`id`) REFERENCES `Cartao_credito`(`id_conta`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE `Conta`
-ADD FOREIGN KEY(`id`) REFERENCES `Despesas`(`id_conta`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE `Despesas`
-ADD FOREIGN KEY(`id_cartao`) REFERENCES `Cartao_credito`(`id`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE `Receitas`
-ADD FOREIGN KEY(`id_conta`) REFERENCES `Conta`(`id`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE `Receitas`
-ADD FOREIGN KEY(`id_cartao`) REFERENCES `Cartao_credito`(`id`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE `Receitas`
-ADD FOREIGN KEY(`id_categoria`) REFERENCES `Categorias`(`id`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE `Categorias`
-ADD FOREIGN KEY(`id`) REFERENCES `Despesas`(`id_categoria`)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
+-- Cartões de crédito
+CREATE TABLE Cartao_credito (
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nome_cartao VARCHAR(255) NOT NULL,
+	icone_cartao BLOB,
+	limite_cartao DOUBLE NOT NULL,
+	limite_disponivel DOUBLE NOT NULL,
+	limite_usado DOUBLE NOT NULL,
+	id_user INT UNSIGNED NOT NULL,
+	FOREIGN KEY (id_user) REFERENCES Users(id)
+);
+
+-- Receitas
+CREATE TABLE Receitas (
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nome_receita VARCHAR(255) NOT NULL,
+	desc_receita TEXT,
+	valor_receita DOUBLE NOT NULL,
+	data_receita DATE NOT NULL,
+	metodo_pagamento ENUM('debito', 'credito') NOT NULL,
+	id_conta INT UNSIGNED,
+	id_cartao INT UNSIGNED,
+	id_categoria INT UNSIGNED,
+	id_user INT UNSIGNED NOT NULL,
+	FOREIGN KEY (id_user) REFERENCES Users(id),
+	FOREIGN KEY (id_conta) REFERENCES Conta(id),
+	FOREIGN KEY (id_cartao) REFERENCES Cartao_credito(id),
+	FOREIGN KEY (id_categoria) REFERENCES Categorias(id)
+);
+
+-- Despesas
+CREATE TABLE Despesas (
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	nome_despesa VARCHAR(255) NOT NULL,
+	desc_despesa TEXT,
+	valor_despesa DOUBLE NOT NULL,
+	data_despesa DATE NOT NULL,
+	metodo_pagamento ENUM('debito', 'credito') NOT NULL,
+	tipo_pagamento ENUM('avista', 'recorrente', 'parcelado') DEFAULT NULL,
+	id_conta INT UNSIGNED,
+	id_cartao INT UNSIGNED,
+	id_categoria INT UNSIGNED,
+	id_user INT UNSIGNED NOT NULL,
+	FOREIGN KEY (id_user) REFERENCES Users(id),
+	FOREIGN KEY (id_conta) REFERENCES Conta(id),
+	FOREIGN KEY (id_cartao) REFERENCES Cartao_credito(id),
+	FOREIGN KEY (id_categoria) REFERENCES Categorias(id)
+);
