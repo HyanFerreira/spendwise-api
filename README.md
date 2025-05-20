@@ -10,8 +10,6 @@
 - [🔗 Endpoints da API](#-endpoints-da-api)
 - [👥 Autores](#-autores) -->
 
----
-
 ## 🔧 Tecnologias Utilizadas
 
 - [Node.js](https://nodejs.org/)
