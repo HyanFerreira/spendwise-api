@@ -1,15 +1,70 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cartao_credito {
+  id                Int     @id @unique(map: "id") @default(autoincrement()) @db.UnsignedInt
+  nome_cartao       String? @db.VarChar(255)
+  icone_cartao      Bytes?  @db.Blob
+  limite_cartao     Float?
+  limite_disponivel Float?
+  limite_usado      Float?
+  id_conta          Int?
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model categorias {
+  id              Int     @id @unique(map: "id") @default(autoincrement()) @db.UnsignedInt
+  nome_cataegoria String? @db.VarChar(255)
+  icone_categoria Bytes?  @db.Blob
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model despesas {
+  id               Int                        @id @unique(map: "id") @default(autoincrement()) @db.UnsignedInt
+  nome_despesa     String?                    @db.VarChar(255)
+  desc_despesa     String?                    @db.MediumText
+  valor_despesa    Float?
+  data_despesa     DateTime?                  @db.Date
+  metodo_pagamento despesas_metodo_pagamento?
+  id_conta         Int?
+  id_cartao        Int?
+  id_categoria     Int?
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model receitas {
+  id               Int                        @id @unique(map: "id") @default(autoincrement()) @db.UnsignedInt
+  nome_receita     String?                    @db.VarChar(255)
+  desc_receita     String?                    @db.MediumText
+  valor_receita    Float?
+  data_receita     DateTime?                  @db.Date
+  metodo_pagamento receitas_metodo_pagamento?
+  id_conta         Int?
+  id_cartao        Int?
+  id_categoria     Int?
+}
+
+model users {
+  id         Int     @id @unique(map: "id") @default(autoincrement()) @db.UnsignedInt
+  nome       String? @db.VarChar(255)
+  email      String? @unique(map: "email") @db.VarChar(255)
+  senha      String? @db.VarChar(500)
+  img_perfil Bytes?  @db.Blob
+}
+
+enum receitas_metodo_pagamento {
+  debito
+  credito
+}
+
+enum despesas_metodo_pagamento {
+  debito
+  credito
 }
