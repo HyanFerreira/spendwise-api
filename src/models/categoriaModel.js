@@ -1,23 +1,19 @@
 import { z } from 'zod';
 import { PrismaClient } from "@prisma/client";
 import { despesasSchema, receitasSchema, userSchema } from "../models";
-
 const prisma = new PrismaClient();
 
-const cartaosSchema = z.object({
-    nome_cartao: z
-        .string({ invalid_type_error: "Nome do cartão de crédito deve ser texto"})
+const categoriasSchema = z.object({
+
+    nome_categoria: z
+        .string({ invalid_type_error: "Nome da despesa deve ser texto" })
         .max(255, "Máximo de 255 caracteres"),
 
-    icone_cartao: z
-        .string({ invalid_type_error: "Link do ícone do cartão deve ser texto"})
+    icone_categoria: z
+        .string({ invalid_type_error: "Link do ícone da categoria deve ser texto"})
         .max(500, "Máximo de 500 caracteres")
         .nullable()
         .optional(),
-
-    limite_cartao: z
-       .number({invalid_type_error: "Valor do limite do cartão deve ser número"}).nonnegative(),
-
 
     id_user: z
        .number({ invalid_type_error: "ID da conta deve ser número" }).nonnegative()
@@ -27,25 +23,27 @@ const cartaosSchema = z.object({
 
     despesas: despesasSchema,
 
-    receitas: receitasSchema,
+    receitas: receitasSchema,    
+
+    
 });
 
-export const cartaoValidator = (user, partial = null) => {
+
+export const categoriaValidator = (user, partial = null) => {
     if (partial) {
-        return cartaosSchema.partial(partial).safeParse(user)
+        return categoriasSchema.partial(partial).safeParse(user)
     }
     else {
-        return cartaosSchema.safeParse(user)
+        return categoriasSchema.safeParse(user)
     }
 };
 
-export async function create(cartao) {
-    return await prisma.cartao.create({
-        data: cartao,
+export async function create(categoria) {
+    return await prisma.categoria.create({
+        data: categoria,
         select: {
-            nome_cartao: true,
-            icone_cartao: true,
-            limite_cartao: true,
+            nome_categoria: true,
+            icone_categoria: true,
             id_user: true,
             users: true,
             despesas: true,
@@ -56,19 +54,19 @@ export async function create(cartao) {
 };
 
 export async function findAll() {
-  return await prisma.cartao.findMany();
+  return await prisma.categoria.findMany();
 };
 
 
 export async function findById(id) {
-  return await prisma.cartao.findUnique({
+  return await prisma.categoria.findUnique({
     where: { id },
   });
 };
 
 
 export async function update(id, data) {
-  return await prisma.cartao.update({
+  return await prisma.categoria.update({
     where: { id },
     data
   });
@@ -76,7 +74,7 @@ export async function update(id, data) {
 
 
 export async function remove(id) {
-  return await prisma.cartao.delete({
+  return await prisma.categoria.delete({
     where: { id },
   });
 };

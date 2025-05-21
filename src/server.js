@@ -4,6 +4,7 @@ import receitaRouter from "./routers/receitaRouter.js";
 import despesaRouter from "./routers/despesaRouter.js";
 import userRouter from "./routers/userRouter.js";
 import contaRouter from "./routers/contaRouter.js";
+import cartaoCreditoRouter from "./routers/cartaoCreditoRouter.js"
 
 const app = express();
 const port = 3000;
@@ -19,6 +20,7 @@ app.use("/receitas", receitaRouter);
 app.use("/despesas", despesaRouter);
 app.use("/users", userRouter);
 app.use("/conta", contaRouter);
+app.use("/cartao", cartaoCreditoRouter);
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
