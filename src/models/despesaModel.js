@@ -6,50 +6,49 @@ const prisma = new PrismaClient()
 const despesasSchema = z.object({
   nome_despesa: z
     .string({ invalid_type_error: "Nome da despesa deve ser texto" })
-    .max(255, "Máximo de 255 caracteres")
-    .nullable()
-    .optional(),
+    .max(255, "Máximo de 255 caracteres"),
 
   desc_despesa: z
     .string({ invalid_type_error: "Descrição da despesa deve ser texto" })
-    .nullable()
     .optional(),
 
   valor_despesa: z
     .number({ invalid_type_error: "Valor da despesa deve ser número" })
-    .positive("Valor da despesa deve ser positivo")
-    .nullable()
-    .optional(),
+    .positive("Valor da despesa deve ser positivo"),
 
   data_despesa: z
-    .coerce.date({ invalid_type_error: "Data da despesa inválida" })
-    .nullable()
-    .optional(),
+    .coerce.date({ invalid_type_error: "Data da despesa inválida" }),
 
   metodo_pagamento: z
     .enum(["debito", "credito"], {
       errorMap: () => ({ message: "Método de pagamento inválido" }),
+    }),
+
+  tipo_pagamento: z
+    .enum(["avista", "recorrente", "parcelado"], {
+      errorMap: () => ({ message: "O tipo de pagamento está invalido!"})
     })
-    .nullable()
     .optional(),
 
   id_conta: z
     .number({ invalid_type_error: "ID da conta deve ser número" })
     .int("ID da conta deve ser inteiro")
-    .nullable()
     .optional(),
 
   id_cartao: z
     .number({ invalid_type_error: "ID do cartão deve ser número" })
     .int("ID do cartão deve ser inteiro")
-    .nullable()
     .optional(),
 
   id_categoria: z
     .number({ invalid_type_error: "ID da categoria deve ser número" })
     .int("ID da categoria deve ser inteiro")
-    .nullable()
     .optional(),
+  
+  id_user: z
+    .number({ invalid_type_error: "O id do usuário está inválido!" })
+    .positive("O id do usuário deve ser positivo!"),
+    
 })
 
 export const despesaValidator = (user, partial = null) => {
@@ -72,16 +71,18 @@ export async function create(despesa) {
       valor_despesa: true,
       data_despesa: true,
       metodo_pagamento: true,
+      tipo_pagamento: true,
       id_conta: true,
       id_cartao: true,
-      id_categoria: true
+      id_categoria: true,
+      id_user: true
     }
-  });
+  })
 }
 
 
 export async function findAll() {
-  return await prisma.despesas.findMany();
+  return await prisma.despesas.findMany()
 }
 
 
@@ -96,12 +97,12 @@ export async function update(id, data) {
   return await prisma.despesas.update({
     where: { id },
     data
-  });
+  })
 }
 
 
 export async function remove(id) {
   return await prisma.despesas.delete({
     where: { id },
-  });
+  })
 }
