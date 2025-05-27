@@ -19,11 +19,14 @@ const categoriasSchema = z.object({
        .number({ invalid_type_error: "ID da conta deve ser número" }).nonnegative()
        .int("ID do usuário dever ser inteiro"),
 
-    users: userSchema,
+    id_receitas: z
+        .number({ invalid_type_error: "ID da receita deve ser número" }).nonnegative()
+       .int("ID da receita dever ser inteiro"),
 
-    despesas: despesasSchema,
+    id_despesas: z
+        .number({ invalid_type_error: "ID da despesa deve ser número" }).nonnegative()
+       .int("ID da despesa dever ser inteiro")
 
-    receitas: receitasSchema,    
 
     
 });
@@ -45,9 +48,8 @@ export async function create(categoria) {
             nome_categoria: true,
             icone_categoria: true,
             id_user: true,
-            users: true,
-            despesas: true,
-            receitas: true
+            id_receitas: true,
+            id_despesas: true
         }
     })
     

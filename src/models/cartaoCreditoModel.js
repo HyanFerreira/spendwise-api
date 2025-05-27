@@ -1,33 +1,36 @@
 import { z } from 'zod';
 import { PrismaClient } from "@prisma/client";
-import { despesasSchema, receitasSchema, userSchema } from "../models";
+
 
 const prisma = new PrismaClient();
 
 const cartaosSchema = z.object({
     nome_cartao: z
-        .string({ invalid_type_error: "Nome do cartão de crédito deve ser texto"})
-        .max(255, "Máximo de 255 caracteres"),
+      .string({ invalid_type_error: "Nome do cartão de crédito deve ser texto"})
+      .max(255, "Máximo de 255 caracteres"),
 
     icone_cartao: z
-        .string({ invalid_type_error: "Link do ícone do cartão deve ser texto"})
-        .max(500, "Máximo de 500 caracteres")
-        .nullable()
-        .optional(),
+      .string({ invalid_type_error: "Link do ícone do cartão deve ser texto"})
+      .max(500, "Máximo de 500 caracteres")
+      .nullable()
+      .optional(),
 
     limite_cartao: z
-       .number({invalid_type_error: "Valor do limite do cartão deve ser número"}).nonnegative(),
-
+      .number({invalid_type_error: "Valor do limite do cartão deve ser número"}).nonnegative(),
 
     id_user: z
-       .number({ invalid_type_error: "ID da conta deve ser número" }).nonnegative()
-       .int("ID do usuário dever ser inteiro"),
+      .number({ invalid_type_error: "ID da usuário deve ser número" }).nonnegative()
+      .int("ID do usuário dever ser inteiro"),
 
-    users: userSchema,
+    id_receitas: z
+      .number({ invalid_type_error: "ID da receita deve ser número" }).nonnegative()
+      .int("ID da receita dever ser inteiro"),
 
-    despesas: despesasSchema,
+    id_despesas: z
+      .number({ invalid_type_error: "ID da despesa deve ser número" }).nonnegative()
+      .int("ID da despesa dever ser inteiro")
 
-    receitas: receitasSchema,
+
 });
 
 export const cartaoValidator = (user, partial = null) => {
@@ -47,10 +50,8 @@ export async function create(cartao) {
             icone_cartao: true,
             limite_cartao: true,
             id_user: true,
-            users: true,
-            despesas: true,
-            receitas: true
-        }
+            id_receitas: true,
+            id_despesas: true
     })
     
 };

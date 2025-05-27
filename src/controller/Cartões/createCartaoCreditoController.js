@@ -14,7 +14,7 @@ export async function createCartaoCreditoController(req, res, next) {
     const result = await create(cartaoValidated)
     return res.status(201).json({
       message: 'Cartão de Crédito criado com sucesso!',
-      receita: result
+      cartao: result
     })
   } catch (error) {
     next(error)

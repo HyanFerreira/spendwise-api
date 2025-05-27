@@ -14,7 +14,7 @@ export async function createCategoriaController(req, res, next) {
     const result = await create(categoriaValidated)
     return res.status(201).json({
       message: 'Categoria criada com sucesso!',
-      receita: result
+      categoria: result
     })
   } catch (error) {
     next(error)
