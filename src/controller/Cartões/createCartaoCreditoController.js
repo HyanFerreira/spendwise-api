@@ -1,7 +1,7 @@
 import { create, cartaoValidator} from "../../models/cartaoCreditoModel.js";
 
 
-export async function createReceitaController(req, res, next) {
+export async function createCartaoCreditoController(req, res, next) {
   try {
     const { success, error, data: cartaoValidated } = cartaoValidator(req.body)
     if (!success) {
