@@ -23,7 +23,7 @@ CREATE TABLE Conta (
 CREATE TABLE Categorias (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nome_categoria VARCHAR(255) NOT NULL,
-	icone_categoria BLOB,
+	icone_categoria VARCHAR(500),
 	id_user INT UNSIGNED NOT NULL,
 	FOREIGN KEY (id_user) REFERENCES Users(id)
 );
@@ -32,7 +32,7 @@ CREATE TABLE Categorias (
 CREATE TABLE Cartao_credito (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	nome_cartao VARCHAR(255) NOT NULL,
-	icone_cartao BLOB,
+	icone_cartao VARCHAR(500),
 	limite_cartao DOUBLE NOT NULL,
 	limite_disponivel DOUBLE NOT NULL,
 	limite_usado DOUBLE NOT NULL,
