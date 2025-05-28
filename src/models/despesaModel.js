@@ -50,6 +50,10 @@ const despesasSchema = z.object({
     .int("ID da categoria deve ser inteiro")
     .nullable()
     .optional(),
+  
+  id_user: z
+    .number({ invalid_type_error: "ID do usuário deve ser número" })
+    .int("ID do usuário deve ser inteiro")
 })
 
 export const despesaValidator = (user, partial = null) => {
@@ -74,7 +78,8 @@ export async function create(despesa) {
       metodo_pagamento: true,
       id_conta: true,
       id_cartao: true,
-      id_categoria: true
+      id_categoria: true,
+      id_user: true
     }
   });
 }
