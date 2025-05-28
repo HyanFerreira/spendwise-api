@@ -41,6 +41,7 @@ export async function create(user) {
       id: true,
       nome: true,
       email: true,
+      senha: true,
       img_perfil: true
     }
   });
