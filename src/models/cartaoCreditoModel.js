@@ -18,19 +18,15 @@ const cartaosSchema = z.object({
     limite_cartao: z
       .number({invalid_type_error: "Valor do limite do cartão deve ser número"}).nonnegative(),
 
+    limite_disponivel: z
+      .number({invalid_type_error: "O valor do limite disponivel deve ser numérico"}),
+    
+    limite_usado: z
+      .number({invalid_type_error: "O valor do limite usado deve ser numérico"}),
+
     id_user: z
       .number({ invalid_type_error: "ID da usuário deve ser número" }).nonnegative()
       .int("ID do usuário dever ser inteiro"),
-
-    id_receitas: z
-      .number({ invalid_type_error: "ID da receita deve ser número" }).nonnegative()
-      .int("ID da receita dever ser inteiro"),
-
-    id_despesas: z
-      .number({ invalid_type_error: "ID da despesa deve ser número" }).nonnegative()
-      .int("ID da despesa dever ser inteiro")
-
-
 });
 
 export const cartaoValidator = (user, partial = null) => {
@@ -43,33 +39,45 @@ export const cartaoValidator = (user, partial = null) => {
 };
 
 export async function create(cartao) {
-    return await prisma.cartao.create({
+    return await prisma.cartao_credito.create({
         data: cartao,
         select: {
-            nome_cartao: true,
-            icone_cartao: true,
-            limite_cartao: true,
-            id_user: true,
-            id_receitas: true,
-            id_despesas: true
-    })
-    
-};
+          nome_cartao: true,
+          icone_cartao: true,
+          limite_cartao: true,
+          limite_disponivel: true,
+          limite_usado: true,
+          id_user: true,
+          receitas: {
+            select: {
+              id: true,
+              valor_receita: true
+            }
+          },
+          despesas: {
+            select: {
+              id: true,
+              valor_despesa: true
+            }
+          }
+      },
+    });
+  }
 
 export async function findAll() {
-  return await prisma.cartao.findMany();
+  return await prisma.cartao_credito.findMany();
 };
 
 
 export async function findById(id) {
-  return await prisma.cartao.findUnique({
+  return await prisma.cartao_credito.findUnique({
     where: { id },
   });
 };
 
 
 export async function update(id, data) {
-  return await prisma.cartao.update({
+  return await prisma.cartao_credito.update({
     where: { id },
     data
   });
@@ -77,7 +85,7 @@ export async function update(id, data) {
 
 
 export async function remove(id) {
-  return await prisma.cartao.delete({
+  return await prisma.cartao_credito.delete({
     where: { id },
   });
 };
