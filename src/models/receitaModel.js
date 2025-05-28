@@ -51,6 +51,10 @@ const receitasSchema = z.object({
     .int("ID da categoria deve ser inteiro")
     .nullable()
     .optional(),
+  
+  id_user: z
+  .number({ invalid_type_error: "ID do usuário deve ser número" })
+  .int("ID do usuário deve ser inteiro")
 })
 
 
