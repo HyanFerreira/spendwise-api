@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { PrismaClient } from "@prisma/client";
-import { despesasSchema, receitasSchema, userSchema } from "../models";
 const prisma = new PrismaClient();
 
 const categoriasSchema = z.object({
@@ -18,17 +17,6 @@ const categoriasSchema = z.object({
     id_user: z
        .number({ invalid_type_error: "ID da conta deve ser número" }).nonnegative()
        .int("ID do usuário dever ser inteiro"),
-
-    id_receitas: z
-        .number({ invalid_type_error: "ID da receita deve ser número" }).nonnegative()
-       .int("ID da receita dever ser inteiro"),
-
-    id_despesas: z
-        .number({ invalid_type_error: "ID da despesa deve ser número" }).nonnegative()
-       .int("ID da despesa dever ser inteiro")
-
-
-    
 });
 
 
@@ -42,33 +30,32 @@ export const categoriaValidator = (user, partial = null) => {
 };
 
 export async function create(categoria) {
-    return await prisma.categoria.create({
+    return await prisma.categorias.create({
         data: categoria,
         select: {
             nome_categoria: true,
             icone_categoria: true,
             id_user: true,
-            id_receitas: true,
-            id_despesas: true
+           
         }
     })
     
 };
 
 export async function findAll() {
-  return await prisma.categoria.findMany();
+  return await prisma.categorias.findMany();
 };
 
 
 export async function findById(id) {
-  return await prisma.categoria.findUnique({
+  return await prisma.categorias.findUnique({
     where: { id },
   });
 };
 
 
 export async function update(id, data) {
-  return await prisma.categoria.update({
+  return await prisma.categorias.update({
     where: { id },
     data
   });
@@ -76,7 +63,7 @@ export async function update(id, data) {
 
 
 export async function remove(id) {
-  return await prisma.categoria.delete({
+  return await prisma.categorias.delete({
     where: { id },
   });
 };
