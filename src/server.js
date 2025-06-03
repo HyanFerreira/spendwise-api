@@ -8,7 +8,7 @@ import cartaoCreditoRouter from "./routers/cartaoCreditoRouter.js";
 import categoriasRouter from "./routers/categoriasRouter.js";
 import {errorHandler} from "./middlewares/errorHandler.js";
 import {logger} from "./middlewares/logger.js";
-import {pageNotFound} from "./controller/pageNotFound.js";
+import {notFoundController} from "./controller/notFoundController.js";
 import {homepage} from "./controller/homepage.js"
 
 
@@ -27,7 +27,7 @@ app.use("/conta", contaRouter);
 app.use("/cartao", cartaoCreditoRouter);
 app.use("/categorias", categoriasRouter);
 
-app.use("*", pageNotFound)
+app.use(notFoundController)
 app.use(errorHandler)
 
 app.listen(port, () => {
