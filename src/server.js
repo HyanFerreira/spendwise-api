@@ -6,23 +6,29 @@ import userRouter from "./routers/userRouter.js";
 import contaRouter from "./routers/contaRouter.js";
 import cartaoCreditoRouter from "./routers/cartaoCreditoRouter.js";
 import categoriasRouter from "./routers/categoriasRouter.js";
+import {errorHandler} from "./middlewares/errorHandler.js";
+import {logger} from "./middlewares/logger.js";
+import {pageNotFound} from "./controller/pageNotFound.js";
+import {homepage} from "./controller/homepage.js"
+
 
 const app = express();
 const port = 3000;
 
+app.use(logger)
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (_, res) => {
-  res.send("Hello World!");
-});
-
+app.get("/", homepage)
 app.use("/receitas", receitaRouter);
 app.use("/despesas", despesaRouter);
 app.use("/users", userRouter);
 app.use("/conta", contaRouter);
 app.use("/cartao", cartaoCreditoRouter);
 app.use("/categorias", categoriasRouter);
+
+app.use("*", pageNotFound)
+app.use(errorHandler)
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
