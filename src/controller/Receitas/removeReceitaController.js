@@ -14,7 +14,7 @@ export async function removeReceitaController(req, res, next) {
       return res.status(404).json({ message: `Receita com ID ${id} não encontrada.` })
     }
 
-    return res.status(200).send().json({ message: "Receita deletada com sucesso!!"})
+    return res.status(200).json({ message: "Receita deletada com sucesso!!" })
   } 
   catch (error) {
     
