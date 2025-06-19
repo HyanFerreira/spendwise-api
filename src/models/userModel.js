@@ -1,6 +1,7 @@
 // userModel.js
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -35,8 +36,13 @@ export const userValidator = (user, partial = null) => {
 };
 
 export async function create(user) {
+  const hashedPassword = await bcrypt.hash(user.senha, 10);
+
   return await prisma.users.create({
-    data: user,
+    data: {
+      ...user,
+      senha: hashedPassword
+    },
     select: {
       id: true,
       nome: true,
@@ -67,6 +73,12 @@ export async function findById(id) {
       email: true,
       img_perfil: true
     }
+  });
+}
+
+export async function findByEmail(email) {
+  return await prisma.users.findUnique({
+    where: { email }
   });
 }
 
