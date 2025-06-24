@@ -44,24 +44,13 @@ export async function create(cartao) {
   return await prisma.cartao_credito.create({
     data: cartao,
     select: {
+      id: true,
       nome_cartao: true,
       icone_cartao: true,
       limite_cartao: true,
       limite_disponivel: true,
       limite_usado: true,
-      id_user: true,
-      receitas: {
-        select: {
-          id: true,
-          valor_receita: true
-        }
-      },
-      despesas: {
-        select: {
-          id: true,
-          valor_despesa: true
-        }
-      }
+      id_user: true
     }
   });
 }

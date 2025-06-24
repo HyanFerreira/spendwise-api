@@ -9,7 +9,6 @@ import categoriasRouter from "./routers/categoriasRouter.js";
 import {errorHandler} from "./middlewares/errorHandler.js";
 import {logger} from "./middlewares/logger.js";
 import {notFoundController} from "./controller/notFoundController.js";
-import {pdfRouter} from "./routers/pdfRouter.js"
 import {homepage} from "./controller/homepage.js"
 
 
@@ -27,7 +26,6 @@ app.use("/users", userRouter);
 app.use("/conta", contaRouter);
 app.use("/cartao", cartaoCreditoRouter);
 app.use("/categorias", categoriasRouter);
-app.use("/exportar", pdfRouter);
 
 app.use(notFoundController)
 app.use(errorHandler)

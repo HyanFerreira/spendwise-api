@@ -30,6 +30,7 @@ export async function getContaResumo(req, res) {
     const saldoPrevisto = saldoAtual + totalReceitas - totalDespesas;
 
     return res.json({
+      id: conta.id,
       nome: conta.nome,
       saldoInicial: conta.saldo,
       saldoAtual,
