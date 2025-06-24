@@ -1,6 +1,6 @@
 
-import { exportUserFinancialReport } from "../util/pdfService"
-import prisma from "prisma";
+import { exportUserFinancialReport } from "../../util/pdfService.js"
+import prisma from "@prisma/client";
 
 export async function exportPdf(req, res) {
   try {

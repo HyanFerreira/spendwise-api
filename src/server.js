@@ -9,7 +9,7 @@ import categoriasRouter from "./routers/categoriasRouter.js";
 import {errorHandler} from "./middlewares/errorHandler.js";
 import {logger} from "./middlewares/logger.js";
 import {notFoundController} from "./controller/notFoundController.js";
-import {pdfRouter} from "./routers/pdfRouter.js"
+import pdfRouter from "./routers/pdfRouter.js"
 import {homepage} from "./controller/homepage.js"
 
 

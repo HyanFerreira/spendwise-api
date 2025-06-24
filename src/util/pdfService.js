@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { generatePDFHtml } from "../util/pdfTemplate";
+import { generatePDFHtml } from ".././util/pdfTemplate.js";
 
 export async function exportUserFinancialReport(user, contas, cartoes) {
   const html = generatePDFHtml({ user, contas, cartoes });
