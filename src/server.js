@@ -9,6 +9,10 @@ import categoriasRouter from "./routers/categoriasRouter.js";
 import {errorHandler} from "./middlewares/errorHandler.js";
 import {logger} from "./middlewares/logger.js";
 import {notFoundController} from "./controller/notFoundController.js";
+<<<<<<< HEAD
+=======
+import pdfRouter from "./routers/pdfRouter.js"
+>>>>>>> dc2989d3069f6b4f209885e537b60a5571dc2b31
 import {homepage} from "./controller/homepage.js"
 
 
