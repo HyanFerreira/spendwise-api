@@ -4,11 +4,13 @@ import { findAllCategoriasController } from "../controller/Categorias/findAllCat
 import { findCategoriaByIdController } from "../controller/Categorias/findCategoriaByIdController.js";
 import { updateCategoriaController } from "../controller/Categorias/updateCategoriaController.js";
 import { removeCategoriaController } from "../controller/Categorias/removeCategoriaController.js";
+import { findCategoriaByIdUserController } from "../controller/Categorias/findCategoriaByIdUserController.js";
 
 const router = express.Router();
 
 router.get("/",  findAllCategoriasController );
 router.get("/find/:id", findCategoriaByIdController);
+router.get("/user/:id", findCategoriaByIdUserController);
 router.post("/create", createCategoriaController);
 router.put("/update/:id", updateCategoriaController);
 router.delete("/delete/:id", removeCategoriaController);

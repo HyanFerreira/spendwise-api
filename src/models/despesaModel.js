@@ -67,13 +67,8 @@ export const despesaValidator = (user, partial = false) => {
 export async function findDespesasByUserId(userId) {
   return await prisma.despesas.findMany({
     where: { id_user: userId },
-    select: {
-      id: true,
-      nome_despesa: true,
-      desc_despesa: true,
-      valor_despesa: true,
-      data_despesa: true,
-      id_categoria: true
+    include: {
+      categorias: true
     },
     orderBy: { data_despesa: "desc" }
   });

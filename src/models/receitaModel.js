@@ -94,13 +94,8 @@ export async function findById(id) {
 export async function findReceitasByUserId(userId) {
   return await prisma.receitas.findMany({
     where: { id_user: userId },
-    select: {
-      id: true,
-      nome_receita: true,
-      desc_receita: true,
-      valor_receita: true,
-      data_receita: true,
-      id_categoria: true
+    include: {
+      categorias: true
     },
     orderBy: { data_receita: "desc" }
   });
