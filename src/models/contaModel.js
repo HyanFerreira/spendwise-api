@@ -38,6 +38,14 @@ export async function create(conta) {
   });
 }
 
+export async function updateConta(id, saldoAtualizado) {
+  return await prisma.conta.update({
+    where: { id },
+    data: { saldoAtual: saldoAtualizado }
+  });
+}
+
+
 export async function findAll() {
   return await prisma.conta.findMany();
 }
@@ -45,6 +53,12 @@ export async function findAll() {
 export async function findById(id) {
   return await prisma.conta.findUnique({
     where: { id }
+  });
+}
+
+export async function findContaByUserId(userId) {
+  return await prisma.conta.findUnique({
+    where: { id_user: userId }
   });
 }
 

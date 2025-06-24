@@ -1,7 +1,7 @@
-import { z } from 'zod'
-import { PrismaClient } from "@prisma/client"
+import { z } from "zod";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 const despesasSchema = z.object({
   nome_despesa: z
@@ -21,14 +21,14 @@ const despesasSchema = z.object({
     .nullable()
     .optional(),
 
-  data_despesa: z
-    .coerce.date({ invalid_type_error: "Data da despesa inválida" })
+  data_despesa: z.coerce
+    .date({ invalid_type_error: "Data da despesa inválida" })
     .nullable()
     .optional(),
 
   metodo_pagamento: z
     .enum(["debito", "credito"], {
-      errorMap: () => ({ message: "Método de pagamento inválido" }),
+      errorMap: () => ({ message: "Método de pagamento inválido" })
     })
     .nullable()
     .optional(),
@@ -50,21 +50,34 @@ const despesasSchema = z.object({
     .int("ID da categoria deve ser inteiro")
     .nullable()
     .optional(),
-  
+
   id_user: z
     .number({ invalid_type_error: "ID do usuário deve ser número" })
     .int("ID do usuário deve ser inteiro")
-})
+});
 
-export const despesaValidator = (user, partial = null) => {
-    if (partial) {
-        return despesasSchema.partial(partial).safeParse(user)
-    }
-    else {
-        return despesasSchema.safeParse(user)
-    }
+export const despesaValidator = (user, partial = false) => {
+  if (partial) {
+    return despesasSchema.partial().safeParse(user);
+  } else {
+    return despesasSchema.safeParse(user);
+  }
+};
+
+export async function findDespesasByUserId(userId) {
+  return await prisma.despesas.findMany({
+    where: { id_user: userId },
+    select: {
+      id: true,
+      nome_despesa: true,
+      desc_despesa: true,
+      valor_despesa: true,
+      data_despesa: true,
+      id_categoria: true
+    },
+    orderBy: { data_despesa: "desc" }
+  });
 }
-
 
 export async function create(despesa) {
   return await prisma.despesas.create({
@@ -84,18 +97,15 @@ export async function create(despesa) {
   });
 }
 
-
 export async function findAll() {
   return await prisma.despesas.findMany();
 }
 
-
 export async function findById(id) {
   return await prisma.despesas.findUnique({
-    where: { id },
+    where: { id }
   });
 }
-
 
 export async function update(id, data) {
   return await prisma.despesas.update({
@@ -104,9 +114,8 @@ export async function update(id, data) {
   });
 }
 
-
 export async function remove(id) {
   return await prisma.despesas.delete({
-    where: { id },
+    where: { id }
   });
 }

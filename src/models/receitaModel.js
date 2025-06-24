@@ -1,8 +1,7 @@
-import { z } from "zod"
-import { PrismaClient } from "@prisma/client"
+import { z } from "zod";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
-
+const prisma = new PrismaClient();
 
 const receitasSchema = z.object({
   nome_receita: z
@@ -22,14 +21,14 @@ const receitasSchema = z.object({
     .nullable()
     .optional(),
 
-  data_receita: z
-    .coerce.date({ invalid_type_error: "Data da receita inválida" })
+  data_receita: z.coerce
+    .date({ invalid_type_error: "Data da receita inválida" })
     .nullable()
     .optional(),
 
   metodo_pagamento: z
     .enum(["debito", "credito"], {
-      errorMap: () => ({ message: "Método de pagamento inválido" }),
+      errorMap: () => ({ message: "Método de pagamento inválido" })
     })
     .nullable()
     .optional(),
@@ -51,22 +50,19 @@ const receitasSchema = z.object({
     .int("ID da categoria deve ser inteiro")
     .nullable()
     .optional(),
-  
-  id_user: z
-  .number({ invalid_type_error: "ID do usuário deve ser número" })
-  .int("ID do usuário deve ser inteiro")
-})
 
+  id_user: z
+    .number({ invalid_type_error: "ID do usuário deve ser número" })
+    .int("ID do usuário deve ser inteiro")
+});
 
 export const receitaValidator = (user, partial = null) => {
-    if (partial) {
-        return receitasSchema.partial(partial).safeParse(user)
-    }
-    else {
-        return receitasSchema.safeParse(user)
-    }
-}
-
+  if (partial) {
+    return receitasSchema.partial(partial).safeParse(user);
+  } else {
+    return receitasSchema.safeParse(user);
+  }
+};
 
 export async function create(receita) {
   return await prisma.receitas.create({
@@ -85,18 +81,30 @@ export async function create(receita) {
   });
 }
 
-
 export async function findAll() {
   return await prisma.receitas.findMany();
 }
 
-
 export async function findById(id) {
   return await prisma.receitas.findUnique({
-    where: { id },
+    where: { id }
   });
 }
 
+export async function findReceitasByUserId(userId) {
+  return await prisma.receitas.findMany({
+    where: { id_user: userId },
+    select: {
+      id: true,
+      nome_receita: true,
+      desc_receita: true,
+      valor_receita: true,
+      data_receita: true,
+      id_categoria: true
+    },
+    orderBy: { data_receita: "desc" }
+  });
+}
 
 export async function update(id, data) {
   return await prisma.receitas.update({
@@ -105,9 +113,8 @@ export async function update(id, data) {
   });
 }
 
-
 export async function remove(id) {
   return await prisma.receitas.delete({
-    where: { id },
+    where: { id }
   });
 }

@@ -4,11 +4,13 @@ import { findAllContaController } from "../controller/Contas/findAllContaControl
 import { findContaByIdController } from "../controller/Contas/findContaByIdController.js";
 import { updateContaController } from "../controller/Contas/updateContaController.js";
 import { removeContaController } from "../controller/Contas/removeContaController.js";
+import { getContaResumo } from "../controller/Contas/findContaByUserIdController.js";
 
 const router = express.Router();
 
 router.get("/", findAllContaController);
 router.get("/find/:id", findContaByIdController);
+router.get("/resumo/:userId", getContaResumo);
 router.post("/create", createContaController);
 router.put("/update/:id", updateContaController);
 router.delete("/delete/:id", removeContaController);
