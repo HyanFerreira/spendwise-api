@@ -1,8 +1,8 @@
 
 import { exportUserFinancialReport } from "../util/pdfService"
-import prisma from "../lib/prisma";
+import prisma from "prisma";
 
-async function exportPdf(req, res) {
+export async function exportPdf(req, res) {
   try {
     const userId = req.user.id;
 
@@ -33,5 +33,3 @@ async function exportPdf(req, res) {
     res.status(500).json({ error: 'Erro ao gerar PDF' });
   }
 }
-
-module.exports = { exportPdf };

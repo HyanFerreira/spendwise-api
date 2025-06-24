@@ -1,7 +1,7 @@
-const puppeteer = require('puppeteer');
-const generatePDFHtml = require('../util/pdfTemplate');
+import puppeteer from "puppeteer";
+import { generatePDFHtml } from "../util/pdfTemplate";
 
-async function exportUserFinancialReport(user, contas, cartoes) {
+export async function exportUserFinancialReport(user, contas, cartoes) {
   const html = generatePDFHtml({ user, contas, cartoes });
 
   const browser = await puppeteer.launch();
@@ -15,5 +15,3 @@ async function exportUserFinancialReport(user, contas, cartoes) {
 
   return pdfBuffer;
 }
-
-module.exports = { exportUserFinancialReport };

@@ -1,4 +1,4 @@
-module.exports = function generatePDFHtml({ user, contas, cartoes }) {
+export function generatePDFHtml({ user, contas, cartoes }) {
     let totalReceitas = 0;
     let totalDespesasContas = 0;
     let totalDespesasCartoes = 0;
